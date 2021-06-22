@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+/IPGVolume/.vs/IPGVolume
+/IPGVolume/IPGVolume.Api/bin/Debug/net5.0
+/.vs
+/IPGVolume/IPGVolume.Api/obj
+/IPGVolume/IPGVolume.Client/bin
+/IPGVolume/IPGVolume.Client/obj
