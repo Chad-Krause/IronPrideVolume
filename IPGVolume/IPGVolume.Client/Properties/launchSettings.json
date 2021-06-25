@@ -1,8 +1,14 @@
-﻿{
+{
   "profiles": {
     "IPGVolume.Client": {
       "commandName": "Project",
-      "dotnetRunMessages": "true",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": "true"
+    },
+    "Client": {
+      "commandName": "Project",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }

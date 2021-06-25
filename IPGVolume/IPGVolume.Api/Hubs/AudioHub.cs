@@ -42,12 +42,20 @@ namespace IPGVolume.Api.Hubs
 
         public async Task ReportVolume(string clientKey, float currentVolume)
         {
+            m_logger.LogInformation($"Client {clientKey} reported a volume of: {currentVolume}");
             await Clients.Group(clientKey + "_reports").ReportVolumeLevel(currentVolume);
         }
 
         public async Task SetVolume(string clientKey, float currentVolume)
         {
             await Clients.Group(clientKey).SetVolume(currentVolume);
+        }
+
+        public async Task ChangeKey(string oldKey, string newKey)
+        {
+            m_logger.LogInformation($"Changing key from {oldKey} to {newKey}");
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, oldKey);
+            await Groups.AddToGroupAsync(Context.ConnectionId, newKey);
         }
     }
 }
