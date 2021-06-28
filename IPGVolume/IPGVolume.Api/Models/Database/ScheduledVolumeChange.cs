@@ -19,14 +19,14 @@ namespace IPGVolume.Api.Models.Database
         public DateTime? ExpiresOn { get; set; }
         public DateTime? CompletedOn { get; set; }
 
-        public DbSet<DayOfWeek> DaysOfWeek { get; set; }
+        public DbSet<RecurringDaysActive> RecurringDaysActive { get; set; }
     }
 
     public partial class ScheduledVolumeChangeConfiguration : IEntityTypeConfiguration<ScheduledVolumeChange>
     {
         public void Configure(EntityTypeBuilder<ScheduledVolumeChange> entity)
         {
-            entity.HasMany(i => i.DaysOfWeek).WithOne(i => i.ScheduledVolumeChange).HasForeignKey("FK_ScheduledVolumeChange_DayOfWeek");
+            entity.HasMany(i => i.RecurringDaysActive).WithOne(i => i.ScheduledVolumeChange).HasForeignKey("FK_ScheduledVolumeChange_DayOfWeek");
         }
     }
 }

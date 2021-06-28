@@ -46,20 +46,24 @@ namespace IPGVolume.Client
             // This look essentially just keeps the connection and reports the volume
             while (!stoppingToken.IsCancellationRequested)
             {
-                m_logger.LogInformation("VolumeWorker running at: {time}", DateTimeOffset.Now);
-
-                // If the hub is disconnected, reconnect, then call reconnect, which subscribes to volume events
-                if(m_volumeHub.State == HubConnectionState.Disconnected)
+                try
                 {
-                    m_logger.LogInformation($"State: {m_volumeHub.State}");
-                    await m_volumeHub.StartAsync();
-                    await Reconnected();
-                }
+                    // If the hub is disconnected, reconnect, then call reconnect, which subscribes to volume events
+                    if (m_volumeHub.State == HubConnectionState.Disconnected)
+                    {
+                        m_logger.LogInformation($"State: {m_volumeHub.State}");
+                        await m_volumeHub.StartAsync();
+                        await Reconnected();
+                    }
 
-                // Report the volume if the hub is connected
-                if(m_volumeHub.State == HubConnectionState.Connected)
+                    // Report the volume if the hub is connected
+                    if (m_volumeHub.State == HubConnectionState.Connected)
+                    {
+                        await m_volumeHub.SendAsync("ReportVolume", m_clientKey, GetVolume());
+                    }
+                } catch (Exception e)
                 {
-                    await m_volumeHub.SendAsync("ReportVolume", m_clientKey, GetVolume());
+                    m_logger.LogError(e, "Error in ExecuteAsync");
                 }
 
                 // Loop forever every 5 seconds
@@ -97,8 +101,11 @@ namespace IPGVolume.Client
         {
             if(level < 0 || level > 1)
             {
+                m_logger.LogInformation($"Volume out of range - {level * 100:F0}%");
                 throw new ArgumentException($"Volume out of range - {level}");
             }
+
+            m_logger.LogInformation($"Setting volume to {level * 100:F0}%");
 
             MMDevice device = new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
             device.AudioEndpointVolume.MasterVolumeLevelScalar = level;

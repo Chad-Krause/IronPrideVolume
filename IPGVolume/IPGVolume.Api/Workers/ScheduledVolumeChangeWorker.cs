@@ -3,6 +3,7 @@ using IPGVolume.Api.Models;
 using IPGVolume.Api.Models.Database;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -14,42 +15,60 @@ namespace IPGVolume.Api.Workers
 {
     public class ScheduledVolumeChangeWorker : BackgroundService
     {
-        private readonly IPGContext m_db;
+        private IPGContext m_db;
         private readonly IHubContext<AudioHub, IAudioHubClient> m_audioHub;
+        private readonly IServiceProvider m_serviceProvider;
+        private IServiceScope m_scope;
 
-        public ScheduledVolumeChangeWorker(IPGContext db, IHubContext<AudioHub, IAudioHubClient> audioHub)
+        public ScheduledVolumeChangeWorker(IServiceProvider serviceProvider, IHubContext<AudioHub, IAudioHubClient> audioHub)
         {
-            m_db = db;
+            m_serviceProvider = serviceProvider;
             m_audioHub = audioHub;
+            m_scope = m_serviceProvider.CreateScope();
+            m_db = m_scope.ServiceProvider.GetRequiredService<IPGContext>();
         }
+
+        //public override async Task StartAsync(CancellationToken cancellationToken)
+        //{
+        //    var x = await m_db.DateTimeTest();
+        //    var i = x.Single();
+        //    var j = 0;
+        //}
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while(!stoppingToken.IsCancellationRequested)
+            while (!stoppingToken.IsCancellationRequested)
             {
-                List<ScheduledVolumeChange> oneOffChanges = await GetOneOffChanges();
-                List<ScheduledVolumeChange> recurringChanges = await GetRecurringChanges();
+                var oneOffChanges = await GetOneOffChanges();
 
-                foreach(ScheduledVolumeChange change in oneOffChanges)
+                var recurringChanges = await GetRecurringChanges();
+
+                foreach (var change in oneOffChanges)
                 {
+                    Console.WriteLine($"One-off Change: {change.ClientKey}");
                     await m_audioHub.Clients.Groups(change.ClientKey).SetVolume(change.Setpoint);
                     change.CompletedOn = DateTime.Now;
+                    m_db.Update(change);
                 }
 
-                foreach(ScheduledVolumeChange change in recurringChanges)
+                foreach (var change in recurringChanges)
                 {
                     Console.WriteLine($"Recurring Change: {change.ClientKey}");
+                    await m_audioHub.Clients.Groups(change.ClientKey).SetVolume(change.Setpoint);
+
+                    ScheduledVolumeChange current_instance = await m_db.ScheduledVolumeChange.SingleAsync(i => i.Id == change.Id);
+                    current_instance.CompletedOn = DateTime.Now;
+                    m_db.Update(current_instance);
                 }
 
                 await m_db.SaveChangesAsync();
-
                 await Task.Delay(5000, stoppingToken);
             }
         }
 
         private async Task<List<ScheduledVolumeChange>> GetRecurringChanges()
         {
-            return await m_db.GetRecurringChanges();
+            return await m_db.GetRecurringChanges(DateTime.Now);
         }
 
         /// <summary>

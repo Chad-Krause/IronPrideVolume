@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,25 +10,16 @@ namespace IPGVolume.Api.Models.Database
 {
     public static class StoredProcedureExtensions
     {
-
-        public static async Task<List<ScheduledVolumeChange>> GetRecurringChanges(this IPGContext context)
+        public static async Task<List<ScheduledVolumeChange>> GetRecurringChanges(this IPGContext context, DateTime? AsOf)
         {
+            if (!AsOf.HasValue) { AsOf = DateTime.Now; }
+
+            var datetime = new MySqlParameter("AsOf", AsOf.Value.ToString("s"));
+
             return await context.Set<ScheduledVolumeChange>()
-                .FromSqlInterpolated($"CALL `GetRecurringScheduledVolumeChanges` {DateTime.Now}")
+                .FromSqlRaw($"CALL `GetRecurringScheduledVolumeChanges` (@AsOf)", datetime)
+                .AsNoTracking()
                 .ToListAsync();
         }
     }
 }
-
-
-//SET @AsOf = '2021-06-24 19:05:00';
-
-//SELECT*
-//FROM ScheduledVolumeChange SVC
-//	JOIN DayOfWeek DOW
-//    	ON DOW.ScheduledVolumeChangeId = SVC.Id
-//WHERE 
-//	(SVC.ExpiresOn IS NULL OR SVC.ExpiresOn >= @AsOf) AND-- Not Expired
-//    IsRecurring = 1 AND									  		-- Is Recurring
-//    DOW.DayOfWeek = DAYOFWEEK(@AsOf) AND-- Active Today
-//(DATE(CompletedOn) != DATE(@AsOf) OR CompletedOn IS NULL)   --Didn't already run today

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace IPGVolume.Api.Models.Database
 {
-    public class DayOfWeek
+    public class RecurringDaysActive
     {
         public int Id { get; set; }
         public int ScheduledVolumeChangeId { get; set; }
