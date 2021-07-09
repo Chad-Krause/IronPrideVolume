@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using IPGVolume.Api.Models;
+using IPGVolume.Api.Models.Database;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +15,60 @@ namespace IPGVolume.Api.Controllers
     [ApiController]
     public class ScheduledVolumeChangesController : ControllerBase
     {
+        private readonly ILogger<ScheduledVolumeChangesController> m_logger;
+        private readonly IPGContext m_db;
 
-        public ScheduledVolumeChangesController()
+
+        public ScheduledVolumeChangesController(ILogger<ScheduledVolumeChangesController> logger, IPGContext db)
         {
+            m_logger = logger;
+            m_db = db;
+        }
 
+        [HttpGet("GetScheduledVolumeChanges")]
+        public async Task<ActionResult<List<ScheduledVolumeChange>>> GetScheduledVolumeChanges(string clientKey)
+        {
+            m_logger.LogInformation($"GetScheduledVolumeChanges ClientKey: {clientKey} ");
+            return await m_db.ScheduledVolumeChange.Where(i => i.ClientKey == clientKey
+                                                            && (i.IsRecurring 
+                                                            || i.CompletedOn == null))
+                                                    .ToListAsync();
+        }
+
+        [HttpPost("CreateOrUpdateSVC")]
+        public async Task CreateOrUpdateSVC(CreateOrUpdateSVCModel scheduledVolumeChange)
+        {
+            if(scheduledVolumeChange.Id.HasValue)
+            {
+                
+            } else
+            {
+                await CreateSVC(scheduledVolumeChange);
+            }
+        }
+
+        private async Task CreateSVC(CreateOrUpdateSVCModel scheduledVolumeChange)
+        {
+            m_logger.LogInformation($"Creating new SVC");
+
+            ScheduledVolumeChange svc = new ScheduledVolumeChange
+            {
+                Setpoint = scheduledVolumeChange.Setpoint,
+                ClientKey = scheduledVolumeChange.ClientKey,
+                CreatorName = scheduledVolumeChange.CreatorName,
+                ActiveOn = scheduledVolumeChange.ActiveOn,
+                IsRecurring = scheduledVolumeChange.IsRecurring,
+                ExpiresOn = scheduledVolumeChange.ExpiresOn
+            };
+            
+            foreach(int day in scheduledVolumeChange.RecurringDaysActive)
+            {
+                svc.RecurringDaysActive.Add(new RecurringDaysActive {
+                    DayNumber = day
+                });
+            }
+
+            m_db.ScheduledVolumeChange.Add(svc);
         }
     }
 }

@@ -8,6 +8,7 @@ using NAudio.CoreAudioApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -61,9 +62,12 @@ namespace IPGVolume.Client
                     {
                         await m_volumeHub.SendAsync("ReportVolume", m_clientKey, GetVolume());
                     }
+                } catch (HttpRequestException e)
+                {
+                    m_logger.LogError("Error connecting to the server. Retrying");
                 } catch (Exception e)
                 {
-                    m_logger.LogError(e, "Error in ExecuteAsync");
+                    m_logger.LogError(e, "Unexpected error caught in ExecuteAsync in the VolumeWorker!");
                 }
 
                 // Loop forever every 5 seconds
@@ -122,6 +126,7 @@ namespace IPGVolume.Client
         
         private async Task Reconnected(string connectionId)
         {
+            m_logger.LogInformation($"Connected to server");
             await Reconnected();
         }
 

@@ -9,6 +9,8 @@ namespace IPGVolume.Api.Models.Database
     public class IPGContext : DbContext
     {
         public IPGContext(DbContextOptions<IPGContext> options) : base(options) { }
+
+        public DbSet<Client> Client { get; set; }
         public DbSet<ScheduledVolumeChange> ScheduledVolumeChange { get; set; }
         public DbSet<RecurringDaysActive> RecurringDaysActive { get; set; }
     }
