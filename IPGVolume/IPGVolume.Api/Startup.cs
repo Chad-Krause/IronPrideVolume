@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,6 +70,11 @@ namespace IPGVolume.Api
                 });
             });
 
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ng-volume/dist";
+            });
+
             services.AddHostedService<StartUpWorker>();
         }
 
@@ -95,6 +101,20 @@ namespace IPGVolume.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<AudioHub>("/AudioHub");
+            });
+
+            app.UseSpa(spa =>
+            {
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                spa.Options.SourcePath = "ng-volume";
+
+                if (env.IsDevelopment())
+                {
+                    //spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                }
             });
         }
     }

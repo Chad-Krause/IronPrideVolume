@@ -108,3 +108,4 @@ dist
 /IPGVolume/IPGVolume.Api/obj
 /IPGVolume/IPGVolume.Client/bin
 /IPGVolume/IPGVolume.Client/obj
+IPGVolume/IPGVolume.Api/appsettings.Development.json
