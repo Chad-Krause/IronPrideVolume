@@ -100,8 +100,10 @@ namespace IPGVolume.Api
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapHub<AudioHub>("/AudioHub");
             });
+
 
             app.UseSpa(spa =>
             {

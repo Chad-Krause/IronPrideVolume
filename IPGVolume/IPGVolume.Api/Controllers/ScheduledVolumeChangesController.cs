@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace IPGVolume.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ScheduledVolumeChangesController : ControllerBase
     {
@@ -29,9 +29,10 @@ namespace IPGVolume.Api.Controllers
         public async Task<ActionResult<List<ScheduledVolumeChange>>> GetScheduledVolumeChanges(string clientKey)
         {
             m_logger.LogInformation($"GetScheduledVolumeChanges ClientKey: {clientKey} ");
-            return await m_db.ScheduledVolumeChange.Where(i => i.ClientKey == clientKey
-                                                            && (i.IsRecurring 
-                                                            || i.CompletedOn == null))
+            return await m_db.ScheduledVolumeChange.Include(i => i.RecurringDaysActive)
+                                                    .Where(i => i.ClientKey == clientKey
+                                                            && (i.IsRecurring || i.CompletedOn == null)
+                                                            && (i.ExpiresOn == null || i.ExpiresOn > DateTime.Now))
                                                     .ToListAsync();
         }
 
@@ -40,7 +41,7 @@ namespace IPGVolume.Api.Controllers
         {
             if(scheduledVolumeChange.Id.HasValue)
             {
-                
+                throw new NotImplementedException("Updating not supported yet");
             } else
             {
                 await CreateSVC(scheduledVolumeChange);

@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './modules/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { VolumeSliderComponent } from './components/volume-slider/volume-slider.component';
-import { ChangeKeyComponent } from './components/modals/change-key/change-key.component';
+import { SettingsDialog } from './components/modals/settings/settings-dialog.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { ChangeKeyComponent } from './components/modals/change-key/change-key.co
     NavBarComponent,
     ScheduledVolumeChangesComponent,
     VolumeSliderComponent,
-    ChangeKeyComponent
+    SettingsDialog
   ],
   imports: [
     BrowserModule,

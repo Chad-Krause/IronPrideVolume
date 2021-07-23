@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ScheduledVolumeChange } from 'src/app/models/scheduled-volume-change';
+import { SchedulingService } from 'src/app/services/scheduling.service';
 
 @Component({
   selector: 'app-scheduled-volume-changes',
@@ -6,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./scheduled-volume-changes.component.css']
 })
 export class ScheduledVolumeChangesComponent implements OnInit {
-
-  constructor() { }
+  schedule: ScheduledVolumeChange[] = [];
+  constructor(private api: SchedulingService) { }
 
   ngOnInit(): void {
+    this.api.getScheduledVolumeChanges().subscribe(res => {
+      this.schedule = res.map(i => new ScheduledVolumeChange(i));
+      console.log(this.schedule);
+    });
   }
 
 }

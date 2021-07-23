@@ -1,6 +1,17 @@
 <mat-toolbar class='d-flex justify-content-between' color="primary">
     <span>{{appName}}</span>
-    <button mat-icon-button class="menu-icon">
+    <button mat-icon-button class="menu-icon" [matMenuTriggerFor]="menu">
         <mat-icon>more_vert</mat-icon>
     </button>
 </mat-toolbar>
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)='openDialog()'>
+        <mat-icon>settings</mat-icon>
+        <span>Edit Settings</span>
+    </button>
+    <button mat-menu-item [routerLink]="'schedule'">
+        <mat-icon>update</mat-icon>
+        <span>Schedule</span>
+    </button>
+</mat-menu>

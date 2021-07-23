@@ -76,7 +76,7 @@ namespace IPGVolume.Api.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, clientKey + "_report");
         }
 
-        public async Task UnsubscribeToVolumeReports(string remoteName, string clientKey)
+        public async Task UnsubscribeFromVolumeReports(string remoteName, string clientKey)
         {
             m_logger.LogInformation($"Removing {remoteName} from {clientKey} reports group");
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, clientKey + "_report");
@@ -124,7 +124,7 @@ namespace IPGVolume.Api.Hubs
                 m_logger.LogError($"ReportVolume: Error updating details for {Context.ConnectionId} in the database");
             }
 
-            await Clients.Group(clientKey + "_reports").ReportVolumeLevel(currentVolume);
+            await Clients.Group(clientKey + "_report").ReportVolumeLevel(currentVolume);
         }
 
         public async Task SetVolume(string clientKey, float currentVolume)

@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Settings</h1>
+<div mat-dialog-content>
+  <p>Client Key</p>
+  <mat-form-field appearance="fill" class='settings-input'>
+    <mat-label>Enter your client key</mat-label>
+    <input matInput placeholder="Client Key" [formControl]="clientKey" required>
+    <mat-error *ngIf="clientKey.invalid">{{getErrorMessage(clientKey, 0)}}</mat-error>
+  </mat-form-field>
+  <p>Device Name</p>
+  <mat-form-field appearance="fill" class='settings-input'>
+    <mat-label>Enter a nickname for this device</mat-label>
+    <input matInput placeholder="This device's name" [formControl]="name" required>
+    <mat-error *ngIf="clientKey.invalid">{{getErrorMessage(name, 1)}}</mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-button (click)="onSave()" cdkFocusInitial>Save</button>
+</div>
