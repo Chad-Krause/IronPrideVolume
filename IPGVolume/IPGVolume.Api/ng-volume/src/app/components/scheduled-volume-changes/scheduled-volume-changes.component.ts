@@ -9,6 +9,9 @@ import { SchedulingService } from 'src/app/services/scheduling.service';
 })
 export class ScheduledVolumeChangesComponent implements OnInit {
   schedule: ScheduledVolumeChange[] = [];
+  oneOffColumns: string[] = ['ExecOn', 'Setpoint', 'Actions'];
+  recurringColumns: string[] = ['ExecOn', 'Setpoint', 'Days', 'Actions'];
+
   constructor(private api: SchedulingService) { }
 
   ngOnInit(): void {

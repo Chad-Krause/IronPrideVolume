@@ -1,0 +1,14 @@
+.table-container {
+    margin: .5em;
+}
+
+.table-container table {
+    width: 100%;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    height: inherit;
+    padding: 3px 24px 2px 2px;
+}

@@ -31,4 +31,8 @@ export class ScheduledVolumeChange {
 
         this.recurringDaysActive = this.recurringDaysActive.map(i => new RecurringDaysActive(i));
     }
+
+    get nice_setpoint(): string {
+        return `${this.setpoint * 100}%`;
+    }
 }

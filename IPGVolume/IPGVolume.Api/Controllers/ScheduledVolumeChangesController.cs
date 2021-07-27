@@ -32,7 +32,9 @@ namespace IPGVolume.Api.Controllers
             return await m_db.ScheduledVolumeChange.Include(i => i.RecurringDaysActive)
                                                     .Where(i => i.ClientKey == clientKey
                                                             && (i.IsRecurring || i.CompletedOn == null)
-                                                            && (i.ExpiresOn == null || i.ExpiresOn > DateTime.Now))
+                                                            && (i.ExpiresOn == null || i.ExpiresOn > DateTime.Now)
+                                                            && i.ActiveOn < DateTime.Now)
+
                                                     .ToListAsync();
         }
 

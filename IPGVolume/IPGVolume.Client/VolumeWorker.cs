@@ -83,7 +83,7 @@ namespace IPGVolume.Client
             await base.StopAsync(stoppingToken);
         }
 
-        // Tell the server to remove you from the subscriber group
+        // Tell the server to remove you from the subscriber group, add you to the new one
         private void ClientKeyChanged(SignalrClientOptions newOptions)
         {
             if(newOptions.ClientKey == m_clientKey) { return; } // If the client key doesn't change, don't do anything
