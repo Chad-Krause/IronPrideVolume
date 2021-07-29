@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -24,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
         MatInputModule,
         ReactiveFormsModule,
         MatTableModule,
+        MatExpansionModule,
         HttpClientModule
     ],
     exports: [
@@ -36,6 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
         MatInputModule,
         ReactiveFormsModule,
         MatTableModule,
+        MatExpansionModule,
         HttpClientModule
     ]
   })

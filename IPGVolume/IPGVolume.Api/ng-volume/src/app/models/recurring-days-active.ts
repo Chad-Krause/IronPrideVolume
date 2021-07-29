@@ -3,7 +3,9 @@ export class RecurringDaysActive {
     scheduledVolumeChangeId: number;
     dayNumber: number;
 
-    constructor(obj: any) {
+    constructor(obj: any = null) {
+        if(obj == null) { return; }
+
         Object.keys(obj).forEach(key => {
             this[key] = obj[key];
         });

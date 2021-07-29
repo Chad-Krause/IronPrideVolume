@@ -34,7 +34,6 @@ namespace IPGVolume.Api.Controllers
                                                             && (i.IsRecurring || i.CompletedOn == null)
                                                             && (i.ExpiresOn == null || i.ExpiresOn > DateTime.Now)
                                                             && i.ActiveOn < DateTime.Now)
-
                                                     .ToListAsync();
         }
 
@@ -72,6 +71,7 @@ namespace IPGVolume.Api.Controllers
             }
 
             m_db.ScheduledVolumeChange.Add(svc);
+            await m_db.SaveChangesAsync();
         }
     }
 }
