@@ -10,8 +10,6 @@ import { SettingsDialog } from '../modals/settings/settings-dialog.component';
 export class NavBarComponent implements OnInit {
   appName: string = 'ChadVol';
 
-  
-
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -24,3 +22,4 @@ export class NavBarComponent implements OnInit {
   }
 
 }
+

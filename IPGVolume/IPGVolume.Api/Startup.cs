@@ -105,19 +105,17 @@ namespace IPGVolume.Api
             });
 
 
-            app.UseSpa(spa =>
+            if (!env.IsDevelopment())
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                spa.Options.SourcePath = "ng-volume";
-
-                if (env.IsDevelopment())
+                app.UseSpa(spa =>
                 {
-                    //spa.UseAngularCliServer(npmScript: "start");
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
-                }
-            });
+                    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                    // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                    spa.Options.SourcePath = "ng-volume";
+                    spa.UseAngularCliServer(npmScript: "start");
+                });
+            }
         }
     }
 }

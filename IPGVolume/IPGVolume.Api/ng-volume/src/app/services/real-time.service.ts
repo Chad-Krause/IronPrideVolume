@@ -65,11 +65,11 @@ export class RealTimeService {
   }
 
   private startConnection() {
-    this.connection.start()
-      .then(i => this.isConnected.emit(true))
-      .catch(i => {
-        this.isConnected.emit(false)
-      });
+    // this.connection.start()
+    //   .then(i => this.isConnected.emit(true))
+    //   .catch(i => {
+    //     this.isConnected.emit(false)
+    //   });
   }
 
   public getClientKey(): string {

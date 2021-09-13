@@ -9,8 +9,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -26,6 +31,12 @@ import { HttpClientModule } from '@angular/common/http';
         ReactiveFormsModule,
         MatTableModule,
         MatExpansionModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCheckboxModule,
+        NgbTimepickerModule,
+        MatSlideToggleModule,
+        FormsModule,
         HttpClientModule
     ],
     exports: [
@@ -39,6 +50,12 @@ import { HttpClientModule } from '@angular/common/http';
         ReactiveFormsModule,
         MatTableModule,
         MatExpansionModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        NgbTimepickerModule,
+        MatSlideToggleModule,
+        MatCheckboxModule,
+        FormsModule,
         HttpClientModule
     ]
   })

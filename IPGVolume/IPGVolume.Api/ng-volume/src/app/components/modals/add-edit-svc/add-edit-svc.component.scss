@@ -7,4 +7,31 @@ h1 {
 .expansion-detail {
     color: blue;
 }
-  
+
+mat-slide-toggle {
+    zoom: 1.125;
+}
+
+.slide-toggle {
+    font-size: 1.25em;
+    display: inline;
+}
+
+.slide-toggle-container {
+    display: flex;
+    margin: 1em;
+    justify-content: center;
+}
+
+.recurring-disabled {
+    color: gray;
+}
+
+.checkbox-margin {
+    margin: 0 12px;
+}
+
+.day-of-week-selection {
+    display: flex;
+    justify-content: center;
+}
