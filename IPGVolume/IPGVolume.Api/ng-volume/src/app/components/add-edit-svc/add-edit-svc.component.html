@@ -8,7 +8,7 @@
 </div>
 
 
-<div>
+<div class='accordion'>
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -49,13 +49,36 @@
       </mat-expansion-panel-header>
 
       <section class='day-of-week-selection'>
-        <mat-checkbox class="checkbox-margin" *ngFor='let day of weekDay; let i = index' [(ngModel)]='day.checked'>{{ day.name }}</mat-checkbox>
+        <mat-checkbox color='primary' class="checkbox-margin" *ngFor='let day of weekDay; let i = index'
+          [(ngModel)]='day.checked'>{{ day.name }}</mat-checkbox>
       </section>
       <section class='day-of-week-selection'>
-        <mat-checkbox class="checkbox-margin" *ngFor='let day of weekendDay; let i = index' [(ngModel)]='day.checked'>{{ day.name }}</mat-checkbox>
+        <mat-checkbox color='primary' class="checkbox-margin" *ngFor='let day of weekendDay; let i = index'
+          [(ngModel)]='day.checked'>{{ day.name }}</mat-checkbox>
       </section>
-      
+
 
     </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]='true'>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class='expansion-title'>Volume</span>
+        </mat-panel-title>
+        <mat-panel-description>
+          <span class='expansion-detail' *ngIf='recurringCache'>{{ getUserFriendlyDays() }}</span>
+          <span class='expansion-detail recurring-disabled' *ngIf='!recurringCache'>None</span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-slider class="example-margin" max="100" min="0" step="1" [thumbLabel]="true" formControlName='isRecurring'
+        [vertical]="true" color='primary' class='volume-slider'>
+      </mat-slider>
+    </mat-expansion-panel>
   </mat-accordion>
+
+</div>
+
+<div class="button-container">
+  <button mat-raised-button>Cancel</button>
+  <button mat-raised-button color="primary">Save</button>
 </div>

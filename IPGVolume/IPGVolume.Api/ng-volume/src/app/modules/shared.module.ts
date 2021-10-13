@@ -13,6 +13,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatCardModule } from '@angular/material/card';
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -36,6 +38,8 @@ import { HttpClientModule } from '@angular/common/http';
         MatCheckboxModule,
         NgbTimepickerModule,
         MatSlideToggleModule,
+        MatSliderModule,
+        MatCardModule,
         FormsModule,
         HttpClientModule
     ],
@@ -55,6 +59,8 @@ import { HttpClientModule } from '@angular/common/http';
         NgbTimepickerModule,
         MatSlideToggleModule,
         MatCheckboxModule,
+        MatSliderModule,
+        MatCardModule,
         FormsModule,
         HttpClientModule
     ]

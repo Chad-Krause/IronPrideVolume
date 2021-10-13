@@ -9,7 +9,7 @@ import { SharedModule } from './modules/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { VolumeSliderComponent } from './components/volume-slider/volume-slider.component';
 import { SettingsDialog } from './components/modals/settings/settings-dialog.component';
-import { AddEditSvcComponent } from './components/modals/add-edit-svc/add-edit-svc.component';
+import { AddEditSvcComponent } from './components/add-edit-svc/add-edit-svc.component';
 
 @NgModule({
   declarations: [

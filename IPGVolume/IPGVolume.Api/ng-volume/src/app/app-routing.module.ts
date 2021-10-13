@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddEditSvcComponent } from './components/modals/add-edit-svc/add-edit-svc.component';
+import { AddEditSvcComponent } from './components/add-edit-svc/add-edit-svc.component';
 import { ScheduledVolumeChangesComponent } from './components/scheduled-volume-changes/scheduled-volume-changes.component';
 
 

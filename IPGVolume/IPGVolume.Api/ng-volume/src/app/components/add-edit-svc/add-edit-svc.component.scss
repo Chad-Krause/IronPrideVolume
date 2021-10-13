@@ -35,3 +35,26 @@ mat-slide-toggle {
     display: flex;
     justify-content: center;
 }
+
+.volume-slider {
+    height: 250px;
+}
+
+.volume-container {
+    display: flex;
+    justify-content: center;
+}
+
+.accordion {
+    padding: 10px;
+}
+
+.button-container button {
+    width: 33vw;
+}
+
+.button-container {
+    margin: 10px 0 50px 0;
+    display: flex;
+    justify-content: space-around;
+}
